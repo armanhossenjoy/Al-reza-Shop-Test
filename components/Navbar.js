@@ -36,29 +36,49 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="p-4 bg-green-800 text-white flex justify-between items-center">
-      <Link href="/" className="text-2xl font-bold">🌿 Al Reza Organic</Link>
-      
-      <div className="flex gap-6 items-center">
-        <Link href="/cart" className="hover:text-green-200">
-          Cart ({cart.length})
+    <nav className="sticky top-0 z-50 w-full bg-green-900/95 backdrop-blur-sm border-b border-green-800 text-white shadow-lg transition-all">
+      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        <Link href="/" className="text-2xl font-bold tracking-tight flex items-center gap-2 hover:text-green-200 transition">
+          🌿 Al Reza Organic
         </Link>
-
-        {loading ? (
-          <div className="w-16" /> /* Placeholder to prevent flicker */
-        ) : user ? (
-          <div className="flex gap-4 items-center">
-            <Link href="/orders" className="hover:text-green-200">
-              My Orders
-            </Link>
-            <span className="text-sm">Hello, {user.email.split('@')[0]}</span>
-            <button onClick={handleLogout} className="bg-red-500 px-3 py-1 rounded text-sm">Logout</button>
-          </div>
-        ) : (
-          <Link href="/login" className="bg-white text-green-800 px-4 py-1 rounded font-semibold">
-            Login
+        
+        <div className="flex gap-6 items-center font-medium">
+          <Link href="/cart" className="relative group hover:text-green-200 transition">
+            Cart 
+            {cart.length > 0 && (
+              <span className="absolute -top-2 -right-3 bg-yellow-400 text-green-900 text-xs font-bold px-1.5 py-0.5 rounded-full">
+                {cart.length}
+              </span>
+            )}
           </Link>
-        )}
+
+          {loading ? (
+            <div className="w-20 h-8 bg-green-800/50 animate-pulse rounded" />
+          ) : user ? (
+            <div className="flex gap-6 items-center">
+              <Link href="/orders" className="hover:text-green-200 transition">
+                Orders
+              </Link>
+              <div className="hidden md:flex flex-col items-end leading-tight">
+                <span className="text-xs text-green-300">Welcome back</span>
+                <span className="text-sm font-semibold">{user.email.split('@')[0]}</span>
+              </div>
+              <button 
+                onClick={handleLogout} 
+                className="bg-red-500/90 hover:bg-red-600 text-white px-4 py-2 rounded-full text-sm transition shadow-sm"
+              >
+                Logout
+              </button>
+            </div>
+          ) : (
+            <Link 
+              href="/login" 
+              className="bg-white text-green-900 px-5 py-2 rounded-full font-semibold hover:bg-green-50 transition shadow-sm"
+            >
+              Login
+            </Link>
+          )}
+        </div>
       </div>
     </nav>
   )
